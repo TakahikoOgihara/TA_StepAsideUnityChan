@@ -32,39 +32,46 @@ public class ItemGenerator : MonoBehaviour
 
     // Update is called once per frame
 
+    
+
     void Update()
     {
-        for (int i = startPos; i < goalPos; i += 15)
+        // Unityちゃんの現在地のZ軸を15で割った余りが0の場合のみが、アイテム発生位置であり、それ以外はifとreturnで処理を走らせない。
+        float UniZ = myUnitychan.transform.position.z;
+        float ItemGenZ = UniZ + 50;
+
+        if (ItemGenZ % 15 != 0)
         {
-            if (myUnitychan.gameObject.transform.position.z - 50 <= i && i <= myUnitychan.gameObject.transform.position.z + 50)
+            return;
+        }
+        else if (startPos <= UniZ && UniZ <= goalPos)
+        {
+            int num = Random.Range(1, 11);
+
+            if (num <= 2)
             {
-                int num = Random.Range(1, 11);
-
-                if(num <= 2)
+                for (float j = -1; j <= 1; j += -0.4f)
                 {
-                    for(float j = -1; j<=1; j+=-0.4f)
-                    {
-                        GameObject cone = Instantiate(conePrefab);
-                        cone.transform.position = new Vector3(4 * j, cone.transform.position.y, i);
-                    }
+                    GameObject cone = Instantiate(conePrefab);
+                    cone.transform.position = new Vector3(4 * j, cone.transform.position.y, ItemGenZ);
                 }
-                else
+            }
+            else
+            {
+                for (int j = -1; j <= 1; j++)
                 {
-                    for(int j=-1; j<=1; j++)
-                    {
-                        int item = Random.Range(1, 11);
-                        int offsetZ = Random.Range(-5, 6);
+                    int item = Random.Range(1, 11);
+                    int offsetZ = Random.Range(-5, 6);
 
-                        if(1<=item && item<=6)
-                        {
-                            GameObject coin = Instantiate(coinPrefab);
-                            coin.transform.position = new Vector3(posRange * j, coin.transform.position.y, i + offsetZ);
-                        }
-                        if(7<=item && item <= 9)
-                        {
-                            GameObject car = Instantiate(carPrefab);
-                            car.transform.position = new Vector3(posRange * j, car.transform.position.y, i + offsetZ);
-                        }
+                    if (1 <= item && item <= 6)
+                    {
+                        GameObject coin = Instantiate(coinPrefab);
+                        coin.transform.position = new Vector3(posRange * j, coin.transform.position.y, ItemGenZ + offsetZ);
+                    }
+                    if (7 <= item && item <= 9)
+                    {
+                        GameObject car = Instantiate(carPrefab);
+                        car.transform.position = new Vector3(posRange * j, car.transform.position.y, ItemGenZ + offsetZ);
                     }
                 }
             }
