@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,7 +39,7 @@ public class ItemGenerator : MonoBehaviour
     {
         // Unityちゃんの現在地のZ軸を15で割った余りが0の場合のみが、アイテム発生位置であり、それ以外はifとreturnで処理を走らせない。
         float UniZ = myUnitychan.transform.position.z;
-        float ItemGenZ = UniZ + 50;
+        int ItemGenZ = (int)Math.Floor(UniZ)+50;
 
         if (ItemGenZ % 15 != 0)
         {
@@ -46,7 +47,7 @@ public class ItemGenerator : MonoBehaviour
         }
         else if (startPos <= UniZ && UniZ <= goalPos)
         {
-            int num = Random.Range(1, 11);
+            int num = UnityEngine.Random.Range(1, 11);
 
             if (num <= 2)
             {
@@ -60,8 +61,8 @@ public class ItemGenerator : MonoBehaviour
             {
                 for (int j = -1; j <= 1; j++)
                 {
-                    int item = Random.Range(1, 11);
-                    int offsetZ = Random.Range(-5, 6);
+                    int item = UnityEngine.Random.Range(1, 11);
+                    int offsetZ = UnityEngine.Random.Range(-5, 6);
 
                     if (1 <= item && item <= 6)
                     {
